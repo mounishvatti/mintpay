@@ -15,14 +15,11 @@ export default function SignupPage() {
         >
             {/* Positioned at top left corner */}
             <a
-                href="#"
+                href="/"
                 className="absolute top-4 left-4 flex items-center gap-2 font-medium"
             >
-                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                    <BadgeIndianRupee className="size-5" />
-                </div>
-                <span className="text-3xl font-sans text-purple-700 font-bold italic">
-                    Rupay
+                <span className="text-3xl font-sans text-white font-bold italic">
+                    rupay
                 </span>
             </a>
             {/* Left Section */}
@@ -31,7 +28,7 @@ export default function SignupPage() {
             {/* Right Section */}
             <div className="flex flex-col gap-4 p-6 md:p-10">
                 {/* Signup Form */}
-                <div className="flex flex-1 items-center justify-center bg-white bg-opacity-30 backdrop-blur-2xl rounded-3xl p-6 shadow-lg">
+                <div className="flex flex-1 items-center justify-center bg-white bg-opacity-50 backdrop-blur-3xl rounded-3xl p-6 shadow-lg">
                     <div className="w-full max-w-xs">
                         <SignupForm />
                     </div>

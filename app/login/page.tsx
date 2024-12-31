@@ -1,32 +1,40 @@
-import { BadgeIndianRupee } from "lucide-react"
+import { BadgeIndianRupee } from "lucide-react";
 
-import { LoginForm } from "@/components/login-form"
+import { LoginForm } from "@/components/login-form";
 
 export default function LoginPage() {
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
+    <div
+      className="relative grid min-h-screen lg:grid-cols-2 bg-purple-50"
+      style={{
+        backgroundImage:
+          "url('https://res.cloudinary.com/slicepay/image/upload/f_auto,c_limit,w_3840,q_auto/v1715954067/website/sliceit-v3/images/desktop/slice_account_desktop_UPI_phone.webp')",
+        backgroundSize: "cover",
+        backgroundPosition: "left",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Positioned at top left corner */}
+      <a
+        href="/"
+        className="absolute top-4 left-4 flex items-center gap-2 font-medium"
+      >
+        <span className="text-3xl font-sans text-white font-bold italic">
+          rupay
+        </span>
+      </a>
+      {/* Left Section */}
+      <div className="hidden lg:block"></div>
+
+      {/* Right Section */}
       <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <BadgeIndianRupee className="size-4" />
-            </div>
-            <span className="text-xl font-sans text-violet-700 font-bold italic">Rupay</span>
-          </a>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
+        {/* Signup Form */}
+        <div className="flex flex-1 items-center justify-center p-6">
           <div className="w-full max-w-xs">
             <LoginForm />
           </div>
         </div>
       </div>
-      <div className="relative hidden bg-muted lg:block">
-        <img
-          src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
-      </div>
     </div>
-  )
+  );
 }
