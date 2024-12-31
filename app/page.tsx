@@ -24,8 +24,8 @@ export default function Home() {
 
       {/* Center Section */}
       <div className="absolute justify-center items-center flex flex-col h-full w-full">
-        <div>
-          <p className="text-center text-7xl font-serif font-bold text-white p-2">
+        <div className="pb-4">
+          <p className="text-center text-6xl font-serif font-bold text-white p-2">
             Feel easy with
           </p>
         </div>
