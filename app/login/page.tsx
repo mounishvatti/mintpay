@@ -19,7 +19,7 @@ export default function LoginPage() {
         href="/"
         className="absolute top-4 left-4 flex items-center gap-2 font-medium"
       >
-        <span className="text-3xl font-sans text-white font-bold italic">
+        <span className="text-3xl font-sans text-purple-600 font-bold italic">
           rupay
         </span>
       </a>
@@ -30,7 +30,7 @@ export default function LoginPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         {/* Signup Form */}
         <div className="flex flex-1 items-center justify-center p-6">
-          <div className="w-full max-w-xs">
+          <div className="w-full max-w-xs bg-white rounded-xl shadow-lg p-8">
             <LoginForm />
           </div>
         </div>

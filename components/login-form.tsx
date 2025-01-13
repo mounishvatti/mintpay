@@ -10,12 +10,12 @@ export function LoginForm({
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
-        <p className="text-balance text-sm text-muted-foreground">
+        <h1 className="text-xl font-serif font-bold">Login to your account</h1>
+        {/* <p className="text-balance text-sm text-muted-foreground">
           Enter your email below to login to your account
-        </p>
+        </p> */}
       </div>
-      <div className="grid gap-6">
+      <div className="grid gap-6 font-sans">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" type="email" placeholder="m@example.com" required />

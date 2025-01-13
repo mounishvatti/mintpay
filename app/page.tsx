@@ -1,7 +1,9 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 export default function Home() {
+  const router = useRouter();
   return (
     <div
       className="relative grid min-h-screen lg:grid-cols-2"
@@ -38,7 +40,7 @@ export default function Home() {
           width={1000}
           height={1000}
         />
-        <Button className="bg-purple-600 bg-opacity-40 backdrop-blur-sm rounded-xl z-20 font-medium text-md text-purple-100 font-sans">Get Started</Button>
+        <Button onClick={() => router.push("/login")} className="bg-purple-600 bg-opacity-60 backdrop-blur-sm rounded-lg z-20 font-semibold text-xl p-4 text-purple-100 font-sans">Get Started 💸</Button>
       </div>
 
       {/* Video Background */}

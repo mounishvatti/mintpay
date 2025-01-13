@@ -26,10 +26,10 @@ export default function SignupPage() {
             <div className="hidden lg:block"></div>
 
             {/* Right Section */}
-            <div className="flex flex-col gap-4 p-6 md:p-10">
+            <div className="flex flex-col gap-4 md:p-10">
                 {/* Signup Form */}
-                <div className="flex flex-1 items-center justify-center bg-white bg-opacity-50 backdrop-blur-3xl rounded-3xl p-6 shadow-lg">
-                    <div className="w-full max-w-xs">
+                <div className="flex flex-1 items-center justify-center bg-white bg-opacity-80 backdrop-blur-3xl rounded-3xl shadow-lg">
+                    <div>
                         <SignupForm />
                     </div>
                 </div>
