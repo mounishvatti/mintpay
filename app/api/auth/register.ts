@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const signupData = signupSchema.parse(req.body);
 
     // Check if the user already exists
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.users.findUnique({
       where: { email: signupData.email },
     });
 
@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const hashedPassword = await bcrypt.hash(signupData.password, 10);
 
     // Create a new user
-    await prisma.user.create({
+    await prisma.users.create({
       data: {
         name: signupData.name,
         email: signupData.email,

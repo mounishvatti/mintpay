@@ -24,7 +24,7 @@ export default async function handler(
     const loginData = loginSchema.parse(req.body);
 
     // Find the user by email
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: {
         email: loginData.email,
       },
