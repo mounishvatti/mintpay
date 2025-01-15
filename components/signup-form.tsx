@@ -10,7 +10,7 @@ export function SignupForm({
     return (
         <form className={cn("flex flex-col gap-6", className)} {...props}>
             <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-serif font-bold">
+                <h1 className="text-3xl font-serif font-bold">
                     Register your account
                 </h1>
                 {/* <p className="text-balance text-sm font-sans text-foreground">
