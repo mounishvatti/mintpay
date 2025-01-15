@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: "User already exists" });
     }
 
-    let username = `${signupData.first_name}.${signupData.last_name}`.toLowerCase();
+    let username = `${signupData.first_name}${signupData.last_name}`.toLowerCase();
     // Hash the password
     const hashedPassword = await bcrypt.hash(signupData.password, 10);
 

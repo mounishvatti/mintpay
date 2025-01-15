@@ -13,20 +13,34 @@ export function SignupForm({
                 <h1 className="text-3xl font-serif font-bold">
                     Register your account
                 </h1>
-                {/* <p className="text-balance text-sm font-sans text-foreground">
+                {
+                    /* <p className="text-balance text-sm font-sans text-foreground">
                     Enter the details below to register your account
-                </p> */}
+                </p> */
+                }
             </div>
             <div className="grid gap-6 font-sans text-lg">
-                <div className="grid gap-2">
-                    <Label htmlFor="email">Full Name</Label>
-                    <Input
-                        id="name"
-                        type="text"
-                        placeholder="Ravi Shankar"
-                        className="border border-black/30"
-                        required
-                    />
+                <div className="flex gap-4">
+                    <div className="flex-1">
+                        <Label htmlFor="email">First Name</Label>
+                        <Input
+                            id="name"
+                            type="text"
+                            placeholder="Ravi"
+                            className="border border-black/30"
+                            required
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <Label htmlFor="email">Last Name</Label>
+                        <Input
+                            id="name"
+                            type="text"
+                            placeholder="Shankar"
+                            className="border border-black/30"
+                            required
+                        />
+                    </div>
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
@@ -38,7 +52,8 @@ export function SignupForm({
                         required
                     />
                 </div>
-                {/* <div className="grid gap-2">
+                {
+                    /* <div className="grid gap-2">
                     <Label htmlFor="email">Date of Birth</Label>
                     <Input
                         id="dob"
@@ -47,7 +62,8 @@ export function SignupForm({
                         className="border border-black/30"
                         required
                     />
-                </div> */}
+                </div> */
+                }
                 <div className="grid gap-2">
                     <div className="flex items-center">
                         <Label htmlFor="password">Password</Label>
@@ -77,13 +93,15 @@ export function SignupForm({
                             <Label htmlFor="gender">Gender</Label>
                             <select
                                 id="gender"
-                                className="border border-black/30 bg-inherit rounded-md p-2 text-sm"
+                                className="border border-black/30 bg-inherit rounded-md p-2 text-sm text-slate-500"
                                 required
                             >
                                 <option value="">Pick your gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Prefer not to say">Prefer not to say</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="Prefer not to say">
+                                    Prefer not to say
+                                </option>
                             </select>
                         </div>
                     </div>

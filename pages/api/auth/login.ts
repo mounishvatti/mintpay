@@ -59,8 +59,7 @@ export default async function handler(
     
       return res.status(200).send({
         token,
-        user: user.name,
-        role: user.role,
+        user: user.email,
       });
     
   } catch (error) {
