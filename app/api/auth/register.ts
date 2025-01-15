@@ -8,7 +8,8 @@ import { Resend } from 'resend';
 const resend = new Resend("RESEND_API_KEY");
 
 const signupSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  first_name: z.string().min(1, "First name is required"),
+  last_name: z.string().min(1, "Last name is required"),
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
@@ -31,22 +32,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: "User already exists" });
     }
 
+    let username = `${signupData.first_name}.${signupData.last_name}`.toLowerCase();
     // Hash the password
     const hashedPassword = await bcrypt.hash(signupData.password, 10);
 
     // Create a new user
     await prisma.users.create({
       data: {
-        name: signupData.name,
+        first_name: signupData.first_name,
+        last_name: signupData.last_name,
+        username: username,
         email: signupData.email,
         password: hashedPassword,
-      },
+      }
     });
     try{
       resend.emails.send({
         from: 'onboarding@resend.dev',
         to: 'signupData.email',
-        subject: `Hello ${signupData.name}`,
+        subject: `Hello ${signupData.first_name}`,
         html: '<p>Thank you for signing up!</p>'
       });
     } catch{
