@@ -15,8 +15,8 @@ export default function ConfirmEmailPage() {
         <div className="flex flex-col items-center justify-center min-h-screen bg-violet-900">
             <div className="rounded-lg p-8 m-4 w-full max-w-md shadow-md gap-4 bg-white">
                 {/* Logo Section */}
-                <div className="flex justify-center gap-2 md:justify-start">
-                    <a href="#" className="flex items-center gap-2 font-medium">
+                <div className="flex items-center justify-center md:justify-start">
+                    <a href="#" className="flex items-center">
                         {/* <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                             <BadgeIndianRupee className="size-5" />
                         </div> */}
@@ -28,7 +28,7 @@ export default function ConfirmEmailPage() {
 
                 {/* OTP Section */}
                 <div className="mt-6">
-                    <p className="text-center text-md font-normal font-sans text-slate-900 p-2">
+                    <p className="text-center text-md font-semibold font-sans text-slate-600 p-2">
                         Enter the code sent to your email
                     </p>
 
