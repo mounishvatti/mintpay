@@ -1,5 +1,11 @@
 import { BadgeIndianRupee } from "lucide-react";
 import { SignupForm } from "@/components/signup-form";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "rupay - Signup page",
+    description: "Register with us to get started",
+};
 
 export default function SignupPage() {
     return (
