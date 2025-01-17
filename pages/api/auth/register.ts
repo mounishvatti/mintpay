@@ -16,7 +16,7 @@ async function sendEmail(
   try {
     resend.emails.send({
       from: "Rupay <onboarding@resend.dev>",
-      to: "mounishvatti2002@gmail.com",
+      to: "delivered@resend.dev",
       subject: subject,
       react: body,
       //scheduledAt: "in 1 min",
@@ -46,7 +46,7 @@ export default async function handler(
     const signupData = signupSchema.parse(req.body);
 
     // Check if the user already exists
-    const existingUser = await prisma.users.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: { email: signupData.email },
     });
 
@@ -60,7 +60,7 @@ export default async function handler(
     const hashedPassword = await bcrypt.hash(signupData.password, 10);
 
     // Create a new user
-    await prisma.users.create({
+    await prisma.user.create({
       data: {
         first_name: signupData.first_name,
         last_name: signupData.last_name,
@@ -72,7 +72,7 @@ export default async function handler(
 
     // Send a welcome email
     await sendEmail(
-      "mounishvatti2002@gmail.com",
+      "delivered@resend.dev",
       "Thank you for registering with Rupay",
       React.createElement(WelcomeEmail, {
         username: signupData.first_name,

@@ -1,6 +1,3 @@
-"use client";
-import store from "@/store/store";
-
 import {
     Body,
     Button,
@@ -8,25 +5,30 @@ import {
     Container,
     Head,
     Heading,
+    Hr,
     Html,
     Img,
+    Link,
     Preview,
+    Row,
     Section,
     Tailwind,
     Text,
 } from "@react-email/components";
 import * as React from "react";
 
-interface VerificationSuccessProps {
+interface OTPEmailProps {
     username: string;
+    otp: string;
     company?: string;
 }
 
-const VerificationSuccess: React.FC<VerificationSuccessProps> = ({
+const OTPEmail: React.FC<OTPEmailProps> = ({
+    username,
+    otp,
     company = "Rupay",
 }) => {
-    const previewText = `Your email has been successfully verified with ${company}.`;
-    const username = store.getState().user.username;
+    const previewText = `Your OTP for ${company} is ${otp}.`;
 
     return (
         <Html>
@@ -43,16 +45,19 @@ const VerificationSuccess: React.FC<VerificationSuccessProps> = ({
                             />
                         </Section>
                         <Heading className="text-3xl font-normal text-center p-0 my-8 mx-0">
-                            Your email has been successfully verified
+                            Your OTP for <strong>{company}</strong>
                         </Heading>
                         <Text className="text-2xl">
                             Hello {username},
                         </Text>
                         <Text className="text-xl">
-                            Congratulations! Your email has been successfully verified with <strong>{company}</strong>.
+                            Your One-Time Password (OTP) for logging in to <strong>{company}</strong> is:
                         </Text>
+                        <Section className="text-center mt-[32px] mb-[32px]">
+                            <Heading className="text-4xl font-bold text-[#6A0DAD]">{otp}</Heading>
+                        </Section>
                         <Text className="text-xl">
-                            You're all set to start using our platform and enjoy seamless payments within seconds.
+                            Please use this OTP to complete your login process. It is valid for a limited time only.
                         </Text>
                         <Section className="text-center mt-[32px] mb-[32px]">
                             <Button
@@ -76,4 +81,4 @@ const VerificationSuccess: React.FC<VerificationSuccessProps> = ({
 
 const baseUrl = process.env.URL ? `https://${process.env.URL}` : "http://localhost:3000";
 
-export default VerificationSuccess;
+export default OTPEmail;

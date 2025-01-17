@@ -4,10 +4,13 @@ import prisma  from "@/prisma/PrismaClient";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
+import store from "@/store/store";
+import { setUsername } from "@/store/userSlice";
 
 // Validation schema for login input
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
+  username: z.string(),
   password: z.string(),
 });
 
@@ -24,9 +27,12 @@ export default async function handler(
     const loginData = loginSchema.parse(req.body);
 
     // Find the user by email
-    const user = await prisma.users.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
-        email: loginData.email,
+        OR: [
+          { email: loginData.email },
+          { username: loginData.username },
+        ],
       },
     });
 
@@ -56,6 +62,8 @@ export default async function handler(
     );
 
     // If username is found, return the response with the token and the username's name
+
+    store.dispatch(setUsername(loginData.username));
     
       return res.status(200).send({
         token,
