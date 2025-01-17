@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import store from "@/store/store";
-import { setUsername } from "@/store/userSlice";
+import { setUsername, setUserId, setSession } from "@/store/userSlice";
 
 // Validation schema for login input
 const loginSchema = z.object({
@@ -52,7 +52,7 @@ export default async function handler(
 
     // Generate a JWT token
     const token = jwt.sign({ userId: user.id }, process.env.JWT_USER_SECRET!, {
-      expiresIn: "2d",
+      expiresIn: "1h",
     });
 
     // Store the token in cookies (optional, for session-based auth)
@@ -61,9 +61,10 @@ export default async function handler(
       `token=${token}; HttpOnly; Secure; Path=/; Max-Age=172800`,
     );
 
-    // If username is found, return the response with the token and the username's name
-
+    // Dispatch the user data to the Redux store
     store.dispatch(setUsername(loginData.username));
+    store.dispatch(setUserId(user.id));
+    store.dispatch(setSession(true));
     
       return res.status(200).send({
         token,
