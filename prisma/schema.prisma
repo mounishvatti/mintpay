@@ -14,7 +14,7 @@ datasource db {
 }
 
 model userbankdetails {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(uuid())
   username   String?  @unique @db.VarChar(50)
   email      String   @unique @db.VarChar(255)
   upiid      String   @unique @db.VarChar(255)
@@ -28,7 +28,7 @@ model userbankdetails {
 }
 
 model users {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(uuid())
   first_name  String   @db.VarChar(50)
   last_name  String   @db.VarChar(50)
   username   String?  @unique @db.VarChar(50)
