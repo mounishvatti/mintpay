@@ -1,11 +1,30 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import { z } from "zod";
-import prisma  from "@/prisma/PrismaClient"; 
+import prisma from "@/prisma/PrismaClient";
+import WelcomeEmail from "../email-service/welcome-email";
+import { Resend } from "resend";
+import React from "react";
 
-import { Resend } from 'resend';
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const resend = new Resend("RESEND_API_KEY");
+async function sendEmail(
+  email: string,
+  subject: string,
+  body: React.ReactElement,
+) {
+  try {
+    resend.emails.send({
+      from: "Rupay <onboarding@resend.dev>",
+      to: "mounishvatti2002@gmail.com",
+      subject: subject,
+      react: body,
+      //scheduledAt: "in 1 min",
+    });
+  } catch (error) {
+    console.log("error sending email");
+  }
+}
 
 const signupSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
@@ -14,7 +33,10 @@ const signupSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
@@ -32,7 +54,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: "User already exists" });
     }
 
-    let username = `${signupData.first_name}${signupData.last_name}`.toLowerCase();
+    let username = `${signupData.first_name}${signupData.last_name}`
+      .toLowerCase();
     // Hash the password
     const hashedPassword = await bcrypt.hash(signupData.password, 10);
 
@@ -44,23 +67,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         username: username,
         email: signupData.email,
         password: hashedPassword,
-      }
-    });
-    try{
-      resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: 'signupData.email',
-        subject: `Hello ${signupData.first_name}`,
-        html: '<p>Thank you for signing up!</p>'
-      });
-    } catch{
-      console.log("error sending email");
-    }
-    // Respond with success message
-    return res.status(201).json({
-      message: "Account created successfully"
+      },
     });
 
+    // Send a welcome email
+    await sendEmail(
+      "mounishvatti2002@gmail.com",
+      "Thank you for registering with Rupay",
+      React.createElement(WelcomeEmail, {
+        username: signupData.first_name,
+        company: "Rupay",
+      }),
+    );
+
+    // Respond with success message
+    return res.status(201).json({
+      message: "Account created successfully",
+    });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(422).json({
