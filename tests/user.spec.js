@@ -6,7 +6,7 @@ const backendUrl = "http://localhost:3000";
 describe("User login", () => {
   it("should login a user", async () => {
     const response = await axios.post(`${backendUrl}/api/auth/login`, {
-      username: "mounishvatti",
+      username: "jaswanthvatti",
       password: "test@12345",
     });
     expect(response.status).toBe(200);
