@@ -7,7 +7,6 @@ import { z } from "zod";
 
 // Validation schema for login input
 const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
   username: z.string(),
   password: z.string(),
 });
@@ -27,10 +26,7 @@ export default async function handler(
     // Find the user by email
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { email: loginData.email },
-          { username: loginData.username },
-        ],
+        username: loginData.username,
       },
     });
 
