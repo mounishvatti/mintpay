@@ -1,5 +1,5 @@
 "use client";
-import store from "@/store/store";
+import store from "@/app/store/store";
 
 import {
     Body,

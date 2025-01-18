@@ -1,4 +1,4 @@
-import { BadgeIndianRupee } from "lucide-react";
+//import { BadgeIndianRupee } from "lucide-react";
 import { SignupForm } from "@/components/signup-form";
 import type { Metadata } from "next";
 
@@ -34,7 +34,7 @@ export default function SignupPage() {
             {/* Right Section */}
             <div className="flex flex-col gap-4 md:p-10">
                 {/* Signup Form */}
-                <div className="flex flex-1 items-center justify-center bg-white bg-opacity-80 backdrop-blur-3xl rounded-3xl shadow-lg">
+                <div className="flex flex-1 items-center justify-center bg-white bg-opacity-90 backdrop-blur-3xl rounded-3xl shadow-lg">
                     <div>
                         <SignupForm />
                     </div>

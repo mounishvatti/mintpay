@@ -1,4 +1,4 @@
-import { BadgeIndianRupee } from "lucide-react";
+//import { BadgeIndianRupee } from "lucide-react";
 import type { Metadata } from "next";
 import { LoginForm } from "@/components/login-form";
 

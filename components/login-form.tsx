@@ -1,24 +1,85 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+"use client";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setSession, setUserId, setUsername, setToken } from "@/app/store/userSlice";
+import { toast } from "react-toastify";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const login = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if ((formData.username || formData.email) && formData.password) {
+      try {
+        const data = formData.username
+          ? { username: formData.username, password: formData.password }
+          : { email: formData.email, password: formData.password };
+        const response = await axios.post("/api/auth/login", data);
+        if (response.status === 200) {
+          toast.success("Login successful");
+          dispatch(setToken(response.data.token));
+          dispatch(setUsername(formData.username));
+          dispatch(setUserId(response.data.userId));
+          dispatch(setSession(true));
+          router.push("/banking/user-dashboard");
+        }
+      } catch (error) {
+        console.error("Login failed", error);
+      }
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      onSubmit={login}
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-xl font-serif font-bold">Login to your account</h1>
-        {/* <p className="text-balance text-sm text-muted-foreground">
-          Enter your email below to login to your account
-        </p> */}
       </div>
       <div className="grid gap-6 font-sans">
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+            value={formData.email}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="username">Username</Label>
+          <Input
+            id="username"
+            type="text"
+            placeholder="ravishankar"
+            required
+            value={formData.username}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="grid gap-2">
           <div className="flex items-center">
@@ -30,7 +91,13 @@ export function LoginForm({
               Forgot your password?
             </a>
           </div>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            required
+            value={formData.password}
+            onChange={handleInputChange}
+          />
         </div>
         <Button type="submit" className="w-full">
           Login
@@ -57,5 +124,5 @@ export function LoginForm({
         </a>
       </div>
     </form>
-  )
+  );
 }

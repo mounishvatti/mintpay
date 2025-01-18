@@ -1,7 +1,8 @@
+"use client"
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Provider } from "react-redux";
-import store from "@/store/store";
+import store from "@/app/store/store";
 import { ToastContainer } from "react-toastify";
 
 import "./globals.css";
@@ -16,10 +17,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "rupay - easy payments",
-  description: "payments made easy",
-};
+// export const metadata: Metadata = {
+//   title: "rupay - easy payments",
+//   description: "payments made easy",
+// };
 
 export default function RootLayout({
   children,
@@ -46,7 +47,7 @@ export default function RootLayout({
             limit={5}
           />
           {children}
-        </Provider>,
+        </Provider>
       </body>
     </html>
   );
