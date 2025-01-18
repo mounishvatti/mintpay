@@ -3,11 +3,12 @@ import bcrypt from "bcrypt";
 import prisma from "@/prisma/PrismaClient";
 import { verifyJWT } from "@/pages/api/middleware/middleware"; // Ensure you have JWT verification middleware
 import { z } from "zod";
-import store from "@/store/store";
 
 // Validation schema for creating a bank account
 const createAccountSchema = z.object({
+  userId: z.string().min(1, "User ID is required"),
   bankName: z.string().min(1, "Bank name is required"),
+  upiid: z.string().min(1, "UPI ID is required"),
   pin: z.number().min(1000, "Pin must be a 4-digit number").max(9999, "Pin must be a 4-digit number"),
 });
 
@@ -23,21 +24,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const accountData = createAccountSchema.parse(req.body);
 
-      // Retrieve the logged-in user information from the token (JWT)
-      const userId = store.getState().user.userId;
-      if (!userId) {
+      // Ensure that the user exists
+      const user = await prisma.user.findUnique({
+        where: {
+          id: accountData.userId,
+        },
+      });
+      if (!user) {
         return res.status(401).json({ message: "User not found" });
       }
-
-      const username = store.getState().user.username;
-      const upiid = `${username}${accountData.bankName}@rupay`;
 
       const hashedPin = await bcrypt.hash(accountData.pin.toString(), 10);
 
       // Ensure that the UPI ID is unique across all bank accounts
       const existingAccount = await prisma.userBankDetails.findUnique({
         where: {
-          upiid: upiid,
+          upiid: accountData.upiid,
         },
       });
 
@@ -48,9 +50,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Create the bank account record
       const bankAccount = await prisma.userBankDetails.create({
         data: {
-          userId: userId,
+          userId: accountData.userId,
           bankName: accountData.bankName,
-          upiid: upiid,
+          upiid: accountData.upiid,
           pin: hashedPin,
         },
       });
