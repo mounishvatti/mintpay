@@ -1,4 +1,5 @@
 "use client";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,17 +19,17 @@ export function LoginForm({
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
-    password: "",
+    password: ""
   });
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if ((formData.username || formData.email) && formData.password) {
+    if (formData.username && formData.password) {
       try {
-        const data = formData.username
-          ? { username: formData.username, password: formData.password }
-          : { email: formData.email, password: formData.password };
+        const data = {
+          username: formData.username,
+          password: formData.password
+        }
         const response = await axios.post("/api/auth/login", data);
         if (response.status === 200) {
           toast.success("Login successful");
@@ -60,17 +61,6 @@ export function LoginForm({
       </div>
       <div className="grid gap-6 font-sans">
         <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="m@example.com"
-            required
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="grid gap-2">
           <Label htmlFor="username">Username</Label>
           <Input
             id="username"
@@ -94,6 +84,7 @@ export function LoginForm({
           <Input
             id="password"
             type="password"
+            placeholder="********"
             required
             value={formData.password}
             onChange={handleInputChange}
