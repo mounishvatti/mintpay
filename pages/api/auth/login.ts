@@ -52,7 +52,7 @@ export default async function handler(
     // Store the token in cookies (optional, for session-based auth)
     res.setHeader(
       "Set-Cookie",
-      `token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600`,
+      `token=${token}; HttpOnly; Secure; Path=/; Max-Age=3600 SameSite=Strict`,
     );
     
       return res.status(200).send({
