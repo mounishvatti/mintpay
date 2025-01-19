@@ -1,6 +1,7 @@
 import prisma from "@/prisma/PrismaClient";
 import { Decimal } from "@prisma/client/runtime/library";
-
+import { verifyJWT } from "@/pages/api/middleware/middleware";
+import { NextApiRequest, NextApiResponse } from "next";
 async function sendMoney(from: string, to: string, amount: number) {
     //@ts-ignore
     const result = await prisma.$transaction(async (prisma) => {
@@ -37,7 +38,9 @@ async function sendMoney(from: string, to: string, amount: number) {
                 balance: new Decimal(senderBalance).minus(new Decimal(amount)),
             },
         });
-        console.log(`${from} account debited ${amount} with ${debited.balance} balance.`);
+        console.log(
+            `${from} account debited ${amount} with ${debited.balance} balance.`,
+        );
         // Update receiver's balance
         const credited = await prisma.userBankDetails.update({
             where: { upiid: to },
@@ -57,25 +60,34 @@ async function sendMoney(from: string, to: string, amount: number) {
     });
 }
 
-//@ts-ignore
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== "POST") {
-        return res.status(405).json({ message: "Method Not Allowed" });
-    }
-    
-    const { from, to, amount } = req.body;
-
-    if (amount <= 0) {
-        return res.status(400).json({ error: "Invalid transaction amount." });
-    }
-
-    try {
-        await sendMoney(from, to, amount);
-
-        res.status(200).json({ message: `${to} account successfully credited with amount: ${amount}. Transaction successful.` });
-    } catch (err) {
-        if (err instanceof Error) {
-            console.error("Error sending money:", err.message);
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse,
+) {
+    await verifyJWT(req, res, async () => {
+        if (req.method !== "POST") {
+            return res.status(405).json({ message: "Method Not Allowed" });
         }
-    }
+
+        const { from, to, amount } = req.body;
+
+        if (amount <= 0) {
+            return res.status(400).json({
+                error: "Invalid transaction amount.",
+            });
+        }
+
+        try {
+            await sendMoney(from, to, amount);
+
+            res.status(200).json({
+                message:
+                    `${to} account successfully credited with amount: ${amount}. Transaction successful.`,
+            });
+        } catch (err) {
+            if (err instanceof Error) {
+                console.error("Error sending money:", err.message);
+            }
+        }
+    });
 }
