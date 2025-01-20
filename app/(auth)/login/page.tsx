@@ -35,7 +35,7 @@ export default function LoginPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         {/* Signup Form */}
         <div className="flex flex-1 items-center justify-center p-6">
-          <div className="w-full max-w-xs bg-white rounded-xl shadow-lg p-8">
+          <div className="w-full max-w-sm max-h-fit bg-white rounded-xl shadow-lg p-8">
             <LoginForm />
           </div>
         </div>

@@ -34,7 +34,7 @@ export default function SignupPage() {
             {/* Right Section */}
             <div className="flex flex-col gap-4 md:p-10">
                 {/* Signup Form */}
-                <div className="flex flex-1 items-center justify-center bg-white bg-opacity-90 backdrop-blur-3xl rounded-3xl shadow-lg">
+                <div className="flex flex-1 max-w-2xl max-h-svh items-center justify-center bg-white bg-opacity-90 backdrop-blur-3xl rounded-3xl shadow-lg">
                     <div>
                         <SignupForm />
                     </div>
