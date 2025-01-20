@@ -35,12 +35,25 @@ export default function Home() {
         <Image
           src="https://res.cloudinary.com/slicepay/image/upload/f_auto,c_limit,w_3840,q_auto/v1715954643/website/sliceit-v3/images/desktop/slice_account_desktop_hero_money.webp"
           alt="Image"
-          className="w-full max-w-xs"
+          className="w-full max-w-xl"
           layout="responsive" // Adjusts the image's aspect ratio and makes it responsive
           width={1000}
           height={1000}
         />
-        <Button onClick={() => router.push("/login")} className="bg-purple-600 bg-opacity-60 backdrop-blur-sm rounded-lg z-20 font-semibold text-xl p-4 text-purple-100 font-sans">Get Started 💸</Button>
+      </div>
+
+      <div style={{
+        position: "absolute",
+        bottom: "10%",
+        left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: 1,
+      }}
+        className="cursor-pointer"
+      >
+        <Button variant="outline" onClick={() => router.push("/login")} className="text-lg font-medium text-white bg-white/10 bg-opacity-50">
+          Login
+        </Button>
       </div>
 
       {/* Video Background */}
