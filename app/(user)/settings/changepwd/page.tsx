@@ -38,7 +38,15 @@ export default function ChangePasswordPage({
                     toast.success("Password changed successfully");
                     router.push("/banking/user-dashboard");
                 }
+
+                if (response.status === 401) {
+                    toast.error("Invalid credentials");
+                }
+                if (response.status === 404) {
+                    toast.error("User not found");
+                }
             } catch (error) {
+                toast.error("Error while changing password");
                 console.error("Erorr while changing password", error);
             }
         }
