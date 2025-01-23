@@ -88,6 +88,7 @@ export default function CreateBankAccountPage() {
 
             if (!bankDetail) {
                 toast.error("Invalid UPI ID or PIN");
+                return;
             }
 
             try {
