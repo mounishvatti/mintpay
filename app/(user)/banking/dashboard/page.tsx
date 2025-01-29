@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
-import { Landmark, HandCoins, Wallet } from "lucide-react";
+import { Landmark, HandCoins, Wallet, Banknote, WalletCards, PiggyBank } from "lucide-react";
 import store from "@/app/store/store";
 import {
   IconArrowLeft,
@@ -25,17 +25,24 @@ export default function UserDasboardPage() {
       ),
     },
     {
+      label: "Expense tracker",
+      href: "#",
+      icon: (
+        <PiggyBank className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
       label: "Apply loan",
       href: "#",
       icon: (
-        <HandCoins className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <Banknote className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Add money to wallet",
       href: "#",
       icon: (
-        <Wallet className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <WalletCards className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
@@ -109,13 +116,13 @@ export const Logo = () => {
       href="#"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      <div className="h-5 w-6 bg-purple-700 dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+      <div className="h-5 w-6 bg-sky-400 dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-semibold text-black text-lg italic dark:text-white whitespace-pre"
+        className="font-semibold text-black text-lg font-serif dark:text-white whitespace-pre"
       >
-        rupay
+        mintpay
       </motion.span>
     </Link>
   );
