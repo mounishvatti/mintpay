@@ -31,7 +31,7 @@ describe("Create a bank account", () => {
       {
         userId: "ded9c4eb-4568-4959-95e7-5c36f27e6d09",
         bankName: "bob",
-        upiid: "mounishvattibob@rupay",
+        upiid: "mounishvattibob@mintpay",
         pin: 1123
       }
     );

@@ -6,12 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import store from "@/app/store/store";
+//import store from "@/app/store/store";
 import { Button } from "@/components/ui/button";
 import prisma from "@/prisma/PrismaClient";
-import bcrypt from "bcrypt";
 
-export default function CreateBankAccountPage() {
+export default function RecieveMoneyPage() {
     const router = useRouter();
     const [formData, setFormData] = useState({
         from: "",
@@ -19,7 +18,7 @@ export default function CreateBankAccountPage() {
     });
 
 
-    const userId = store.getState().user.userId;
+   // const userId = store.getState().user.userId;
 
     const fetchAndVerifyBankDetails = async ( upiId: string ) => {
         try {
@@ -77,7 +76,7 @@ export default function CreateBankAccountPage() {
                 }
 
                 router.push("/banking/user-dashboard");
-            } catch (error) {
+            } catch {
                 toast.error("Request failed, please try again");
             }
         }

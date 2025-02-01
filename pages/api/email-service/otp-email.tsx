@@ -26,7 +26,7 @@ interface OTPEmailProps {
 const OTPEmail: React.FC<OTPEmailProps> = ({
     username,
     otp,
-    company = "Rupay",
+    company = "mintpay",
 }) => {
     const previewText = `Your OTP for ${company} is ${otp}.`;
 

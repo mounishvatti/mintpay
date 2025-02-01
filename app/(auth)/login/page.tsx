@@ -1,9 +1,10 @@
 //import { BadgeIndianRupee } from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LoginForm } from "@/components/login-form";
 
 export const metadata: Metadata = {
-  title: "rupay - Login page",
+  title: "mintpay - Login page",
   description: "Login to access your account",
 };
 
@@ -20,14 +21,14 @@ export default function LoginPage() {
       }}
     >
       {/* Positioned at top left corner */}
-      <a
+      <Link
         href="/"
         className="absolute top-4 left-4 flex items-center gap-2 font-medium"
       >
-        <span className="text-3xl font-sans text-purple-600 font-bold italic">
-          rupay
+        <span className="text-3xl font-sans text-sky-600 font-bold italic">
+          mintpay
         </span>
-      </a>
+      </Link>
       {/* Left Section */}
       <div className="hidden lg:block"></div>
 

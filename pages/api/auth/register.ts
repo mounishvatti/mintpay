@@ -16,7 +16,7 @@ async function sendEmail(
 ) {
   try {
     resend.emails.send({
-      from: "Rupay <onboarding@resend.dev>",
+      from: "mintpay <onboarding@resend.dev>",
       to: "delivered@resend.dev",
       subject: subject,
       react: body,
@@ -74,10 +74,10 @@ export default async function handler(
     // Send a welcome email
     await sendEmail(
       "delivered@resend.dev",
-      "Thank you for registering with Rupay",
+      "Thank you for registering with mintpay",
       React.createElement(WelcomeEmail, {
         username: signupData.first_name,
-        company: "Rupay",
+        company: "mintpay",
       }),
     );
 

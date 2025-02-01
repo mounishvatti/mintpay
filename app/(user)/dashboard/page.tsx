@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
-import { Landmark, HandCoins, Wallet, Banknote, WalletCards, PiggyBank } from "lucide-react";
+import { Landmark, Banknote, WalletCards, PiggyBank } from "lucide-react";
 import store from "@/app/store/store";
 import {
   IconArrowLeft,
-  IconBrandTabler,
   IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";

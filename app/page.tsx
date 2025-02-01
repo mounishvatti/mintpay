@@ -21,7 +21,7 @@ export default function Home() {
         className="absolute top-4 left-4 flex items-center gap-2 font-medium"
       >
         <span className="text-3xl font-sans text-white font-bold italic">
-          rupay
+          mintpay
         </span>
       </a>
 

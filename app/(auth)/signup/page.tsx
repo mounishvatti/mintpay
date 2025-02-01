@@ -1,9 +1,10 @@
 //import { BadgeIndianRupee } from "lucide-react";
 import { SignupForm } from "@/components/signup-form";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: "rupay - Signup page",
+    title: "mintpay - Signup page",
     description: "Register with us to get started",
 };
 
@@ -20,14 +21,14 @@ export default function SignupPage() {
             }}
         >
             {/* Positioned at top left corner */}
-            <a
+            <Link
                 href="/"
                 className="absolute top-4 left-4 flex items-center gap-2 font-medium"
             >
                 <span className="text-3xl font-sans text-white font-bold italic">
-                    rupay
+                    mintpay
                 </span>
-            </a>
+            </Link>
             {/* Left Section */}
             <div className="hidden lg:block"></div>
 

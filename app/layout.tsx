@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 // export const metadata: Metadata = {
-//   title: "rupay - easy payments",
+//   title: "mintpay - easy payments",
 //   description: "payments made easy",
 // };
 

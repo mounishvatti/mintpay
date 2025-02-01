@@ -24,7 +24,7 @@ interface WelcomeEmailProps {
 
 const WelcomeEmail: React.FC<WelcomeEmailProps> = ({
     username,
-    company = "Rupay",
+    company = "mintpay",
 }) => {
     const previewText = `Thank you for signing up, ${username}! Experience easy payments with ${company}.`;
 

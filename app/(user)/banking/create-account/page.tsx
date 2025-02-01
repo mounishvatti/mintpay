@@ -47,7 +47,7 @@ export default function CreateBankAccountPage() {
         if (
             userId && username && formData.bankName && formData.pin && !pinError
         ) {
-            const upiid = `${username}${formData.bankName}@rupay`;
+            const upiid = `${username}${formData.bankName}@mintpay`;
             const data = {
                 userId: userId,
                 bankName: formData.bankName,
@@ -65,7 +65,7 @@ export default function CreateBankAccountPage() {
                 }
 
                 router.push("/banking/user-dashboard");
-            } catch (error) {
+            } catch {
                 toast.error("Error creating bank account, please try again");
             }
         }

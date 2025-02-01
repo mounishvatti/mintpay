@@ -109,7 +109,7 @@ export function SignupForm({
                     </div>
                 </div>
 
-                <Button type="submit" className="w-full font-medium">
+                <Button type="submit" className="w-full font-medium bg-sky-600">
                     Register
                 </Button>
                 {

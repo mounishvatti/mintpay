@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import prisma from "@/prisma/PrismaClient";
 import bcrypt from "bcrypt";
 
-export default function CreateBankAccountPage() {
+export default function SendMoneyPage() {
     const router = useRouter();
     const [formData, setFormData] = useState({
         from: "",
@@ -101,7 +101,7 @@ export default function CreateBankAccountPage() {
                 }
 
                 router.push("/banking/user-dashboard");
-            } catch (error) {
+            } catch {
                 toast.error("Transaction failed, please try again");
             }
         }

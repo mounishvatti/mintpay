@@ -21,7 +21,7 @@ export default function LoginOtpPage() {
                             <BadgeIndianRupee className="size-5" />
                         </div> */}
                         <span className="text-2xl font-sans text-violet-600 font-bold italic">
-                            rupay
+                            mintpay
                         </span>
                     </a>
                 </div>

@@ -23,7 +23,7 @@ interface VerificationSuccessProps {
 }
 
 const VerificationSuccess: React.FC<VerificationSuccessProps> = ({
-    company = "Rupay",
+    company = "mintpay",
 }) => {
     const previewText = `Your email has been successfully verified with ${company}.`;
     const username = store.getState().user.username;
