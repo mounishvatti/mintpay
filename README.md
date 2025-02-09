@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MintPay
 
-## Getting Started
+MintPay is a seamless and secure digital payments platform that allows users to
+send and receive money, track expenses, apply for loans, and manage their Mint
+Wallet for hassle-free transactions.
 
-First, run the development server:
+## Features
+
+### 💸 Payments
+
+- **Send Money**: Instantly transfer money to other MintPay users.
+- **Request Money**: Request payments from friends, family, or clients.
+
+### 📊 Expense Tracking
+
+- **Transaction History**: View a detailed record of all your transactions.
+- **Spending Insights**: Get insights into your spending habits with categorized
+  reports.
+
+### 🏦 Loan Applications
+
+- **Apply for Loans**: Seamlessly apply for short-term loans through the
+  platform.
+- **Loan Status Tracking**: Monitor the status of your loan applications in real
+  time.
+
+### 💳 Mint Wallet
+
+- **Add Money**: Top up your Mint Wallet for quick, pinless transactions.
+- **Withdraw Funds**: Transfer money from your Mint Wallet to your linked bank
+  account.
+
+## Tech Stack
+
+- **Frontend**: Next.js, Tailwind CSS
+- **Backend**: Next.js API Routes, Prisma
+- **Database**: PostgreSQL
+- **Authentication**: Auth.js
+
+## Installation & Setup
+
+### Prerequisites
+
+- Node.js (v20+ recommended)
+- PostgreSQL database setup
+
+### Steps
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/mintpay.git
+cd mintpay
+```
+
+    2.	Install dependencies:
+
+```bash
+npm install
+```
+
+    3.	Set up environment variables:
+
+```bash
+cp .env.example .env
+```
+
+Fill in the necessary credentials in the .env file.
+
+    4.	Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    5.	Open your browser and navigate to http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+We welcome contributions! Feel free to submit issues and pull requests to
+enhance MintPay.
