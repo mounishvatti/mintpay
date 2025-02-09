@@ -53,13 +53,13 @@ git clone https://github.com/yourusername/mintpay.git
 cd mintpay
 ```
 
-    2.	Install dependencies:
+2.	Install dependencies:
 
 ```bash
 npm install
 ```
 
-    3.	Set up environment variables:
+3.	Set up environment variables:
 
 ```bash
 cp .env.example .env
@@ -67,13 +67,13 @@ cp .env.example .env
 
 Fill in the necessary credentials in the .env file.
 
-    4.	Run the development server:
+4.	Run the development server:
 
 ```bash
 npm run dev
 ```
 
-    5.	Open your browser and navigate to http://localhost:3000
+5.	Open your browser and navigate to http://localhost:3000
 
 Contributing
 
