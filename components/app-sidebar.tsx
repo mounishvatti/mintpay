@@ -6,10 +6,10 @@ import {
   Send,
   Settings2,
   BadgeIndianRupeeIcon,
-  IndianRupee,
   HandCoins,
   Landmark,
-  Wallet
+  Wallet,
+  ArrowRightLeft,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -35,7 +35,7 @@ const data = {
     {
       title: "Payments",
       url: "#",
-      icon: IndianRupee,
+      icon: ArrowRightLeft,
       isActive: true,
       items: [
         {

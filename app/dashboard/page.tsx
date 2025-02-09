@@ -43,7 +43,7 @@ export default function Page() {
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Link href="/" className="underline">
-              <HomeIcon className="text-blue-500 text-xl" />
+              <HomeIcon className="text-blue-500" size={20} />
             </Link>
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
