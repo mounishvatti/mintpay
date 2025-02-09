@@ -7,7 +7,9 @@ import {
   Settings2,
   BadgeIndianRupeeIcon,
   IndianRupee,
-  HandCoins
+  HandCoins,
+  Landmark,
+  Wallet
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -71,6 +73,40 @@ const data = {
       ],
     },
     {
+      title: "Loans",
+      url: "#",
+      icon: Landmark,
+      items: [
+        {
+          title: "Apply Loan",
+          url: "#",
+          key: "apply-loan",
+        },
+        {
+          title: "View Loans",
+          url: "#",
+          key: "view-loans",
+        },
+      ],
+    },
+    {
+      title: "Wallet",
+      url: "#",
+      icon: Wallet,
+      items: [
+        {
+          title: "Add money",
+          url: "#",
+          key: "",
+        },
+        {
+          title: "Withdraw money",
+          url: "#",
+          key: "",
+        },
+      ],
+    },
+    {
       title: "Settings",
       url: "#",
       icon: Settings2,
@@ -109,7 +145,7 @@ const data = {
 
 export function AppSidebar({onFunctionSelect,  ...props }: React.ComponentProps<typeof Sidebar> & {onFunctionSelect: (key: string) => void}) {
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar variant="inset" collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>

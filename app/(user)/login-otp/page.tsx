@@ -6,7 +6,6 @@ import {
     InputOTPSeparator,
     InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { BadgeIndianRupee } from "lucide-react";
 
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 

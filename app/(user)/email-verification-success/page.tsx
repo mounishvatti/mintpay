@@ -4,7 +4,6 @@ import store from "@/app/store/store";
 import {
     Body,
     Button,
-    Column,
     Container,
     Head,
     Heading,
@@ -52,7 +51,7 @@ const VerificationSuccess: React.FC<VerificationSuccessProps> = ({
                             Congratulations! Your email has been successfully verified with <strong>{company}</strong>.
                         </Text>
                         <Text className="text-xl">
-                            You're all set to start using our platform and enjoy seamless payments within seconds.
+                            You are all set to start using our platform and enjoy seamless payments within seconds.
                         </Text>
                         <Section className="text-center mt-[32px] mb-[32px]">
                             <Button
