@@ -1,6 +1,5 @@
 "use server";
 import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from "bcrypt";
 import { z } from "zod";
 import prisma from "@/prisma/PrismaClient";
 import WelcomeEmail from "../email-service/welcome-email";
@@ -23,6 +22,7 @@ async function sendEmail(
       //scheduledAt: "in 1 min",
     });
   } catch (error) {
+    console.log(error)
     console.log("error sending email");
   }
 }
@@ -55,10 +55,11 @@ export default async function handler(
       return res.status(400).json({ message: "User already exists" });
     }
 
-    let username = `${signupData.first_name}${signupData.last_name}`
+    const username = `${signupData.first_name}${signupData.last_name}`
       .toLowerCase();
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(signupData.password, 10);
+
+    // TODO: Hash the password
+    
 
     // Create a new user
     await prisma.user.create({
@@ -67,7 +68,7 @@ export default async function handler(
         last_name: signupData.last_name,
         username: username,
         email: signupData.email,
-        password: hashedPassword,
+        password: signupData.password,
       },
     });
 
