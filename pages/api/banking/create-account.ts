@@ -1,4 +1,3 @@
-"use server";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import prisma from "@/prisma/PrismaClient";
@@ -10,7 +9,7 @@ const createAccountSchema = z.object({
   userId: z.string().min(1, "User ID is required"),
   bankName: z.string().min(1, "Bank name is required"),
   upiid: z.string().min(1, "UPI ID is required"),
-  pin: z.number().min(1000, "Pin must be a 4-digit number").max(9999, "Pin must be a 4-digit number"),
+  pin: z.coerce.number().min(1000, "Pin must be a 4-digit number").max(9999, "Pin must be a 4-digit number"),
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -53,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: {
           userId: accountData.userId,
           bankName: accountData.bankName,
-          upiid: accountData.upiid,
+          upiid: accountData.upiid.trim().toLowerCase(),
           pin: hashedPin,
         },
       });

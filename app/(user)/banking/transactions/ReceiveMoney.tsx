@@ -8,7 +8,6 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import store from "@/app/store/store";
 import { Button } from "@/components/ui/button";
-import prisma from "@/prisma/PrismaClient";
 
 export default function ReceiveMoney() {
   const router = useRouter();
@@ -19,27 +18,6 @@ export default function ReceiveMoney() {
 
   const userId = store.getState().user.userId;
 
-  const fetchAndVerifyBankDetails = async (upiId: string) => {
-    try {
-      // Fetch the user along with their bank details
-      const user = await prisma.userBankDetails.findUnique({
-        where: {
-          upiid: upiId,
-        },
-      });
-
-      if (!user) {
-        throw new Error("UPI ID not found");
-      }
-
-      // Return the verified bank details
-      return user;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -49,30 +27,26 @@ export default function ReceiveMoney() {
 
   const recieveMoney = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formData.from && formData.amount) {
-      const data = {
-        from: formData.from,
-        amount: formData.amount,
-      };
+    if (!formData.from || !formData.amount) {
+      toast.error("Fill in all fields");
+      return;
+    }
 
-      const bankDetail = await fetchAndVerifyBankDetails(formData.from);
-
-      if (!bankDetail) {
-        toast.error("UPI ID not found");
-        return;
-      }
-
-      try {
-        const response = await axios.post(
-          "/api/banking/payments/request-money",
-          data,
+    try {
+      const response = await axios.post("/api/banking/payments/request-money", {
+        from: formData.from.trim(),
+        amount: Number(formData.amount),
+      });
+      if (response.status === 201) {
+        toast.success(
+          response.data.message ?? "Request recorded (mock — no transfer).",
         );
-        if (response.status === 201) {
-          toast.success("Request sent successfully");
-        }
-
-        router.push("/banking/user-dashboard");
-      } catch {
+      }
+      router.push("/banking/user-dashboard");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        toast.error(String(err.response.data.message));
+      } else {
         toast.error("Request failed, please try again");
       }
     }
@@ -85,35 +59,39 @@ export default function ReceiveMoney() {
           <form onSubmit={recieveMoney} className="flex flex-col gap-6">
             <div>
               <Label
-                htmlFor="sender_upi_id"
+                htmlFor="from"
                 className="block text-lg font-bold text-gray-700"
               >
-                Enter UPI ID from whom you want to request the amount
+                UPI ID to request from
               </Label>
               <Input
                 type="text"
-                id="sender_upi_id"
+                id="from"
                 placeholder="Enter UPI ID"
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 value={formData.from}
                 onChange={handleInputChange}
-              ></Input>
+                required
+              />
               <Label
                 htmlFor="amount"
-                className="block text-lg font-bold text-gray-700"
+                className="block text-lg font-bold text-gray-700 mt-4"
               >
-                Enter the requested amount
+                Amount (INR)
               </Label>
               <Input
                 type="number"
                 id="amount"
+                min={1}
+                step="0.01"
                 placeholder="Enter amount"
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 value={formData.amount}
                 onChange={handleInputChange}
-              ></Input>
+                required
+              />
             </div>
-            <Button variant="default" className="text-lg font-bold">
+            <Button variant="default" className="text-lg font-bold" type="submit">
               Request amount
             </Button>
           </form>
