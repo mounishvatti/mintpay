@@ -1,11 +1,11 @@
 import prisma from "@/prisma/PrismaClient";
 import { Prisma } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
 import { MOCK_MONTHLY_SALARY_INR } from "@/lib/banking/constants";
 
 export { MOCK_MONTHLY_SALARY_INR } from "@/lib/banking/constants";
 
 const STATE_ROW_ID = 1;
+const MAX_RETRIES = 3;
 
 export function currentSalaryMonthKeyUtc(): string {
   const d = new Date();
@@ -17,36 +17,48 @@ export function currentSalaryMonthKeyUtc(): string {
 /**
  * Ensures all `UserBankDetails` rows receive {@link MOCK_MONTHLY_SALARY_INR}
  * for the current UTC month exactly once (global checkpoint).
+ *
+ * Uses a single `updateMany` increment so the credit is applied in one SQL
+ * statement. Retries up to {@link MAX_RETRIES} times on SERIALIZABLE
+ * transaction conflicts (Prisma error P2034) to prevent intermittent 500s
+ * when multiple users load the dashboard at the same time near month rollover.
  */
 export async function ensureMockMonthlyCreditsApplied(): Promise<void> {
   const monthKey = currentSalaryMonthKeyUtc();
 
-  await prisma.$transaction(
-    async (tx) => {
-      const state = await tx.mockMonthlyCreditState.findUnique({
-        where: { id: STATE_ROW_ID },
-      });
-      if (state?.lastCreditedMonth === monthKey) return;
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    try {
+      await prisma.$transaction(
+        async (tx) => {
+          const state = await tx.mockMonthlyCreditState.findUnique({
+            where: { id: STATE_ROW_ID },
+          });
+          if (state?.lastCreditedMonth === monthKey) return;
 
-      const accounts = await tx.userBankDetails.findMany({
-        select: { id: true, balance: true },
-      });
+          await tx.userBankDetails.updateMany({
+            data: {
+              balance: { increment: MOCK_MONTHLY_SALARY_INR },
+            },
+          });
 
-      for (const acc of accounts) {
-        await tx.userBankDetails.update({
-          where: { id: acc.id },
-          data: {
-            balance: new Decimal(acc.balance).plus(MOCK_MONTHLY_SALARY_INR),
-          },
-        });
+          await tx.mockMonthlyCreditState.upsert({
+            where: { id: STATE_ROW_ID },
+            create: { id: STATE_ROW_ID, lastCreditedMonth: monthKey },
+            update: { lastCreditedMonth: monthKey },
+          });
+        },
+        { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+      );
+      return;
+    } catch (err) {
+      const isConflict =
+        err instanceof Prisma.PrismaClientKnownRequestError &&
+        err.code === "P2034";
+      if (!isConflict || attempt === MAX_RETRIES - 1) {
+        throw err;
       }
-
-      await tx.mockMonthlyCreditState.upsert({
-        where: { id: STATE_ROW_ID },
-        create: { id: STATE_ROW_ID, lastCreditedMonth: monthKey },
-        update: { lastCreditedMonth: monthKey },
-      });
-    },
-    { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
-  );
+      // Linear back-off: 50 ms, 100 ms, 150 ms
+      await new Promise((resolve) => setTimeout(resolve, 50 * (attempt + 1)));
+    }
+  }
 }
