@@ -9,8 +9,26 @@ const bodySchema = z.object({
   from: z.string().min(1),
   to: z.string().min(1),
   amount: z.coerce.number().positive(),
-  pin: z.coerce.string().min(4).max(10),
+  pin: z.coerce.string().regex(/^\d{4}$/, "PIN must be exactly 4 digits"),
 });
+
+type SendMoneyErrorCode =
+  | "SENDER_NOT_FOUND"
+  | "NOT_OWNER"
+  | "INCORRECT_PIN"
+  | "RECEIVER_NOT_FOUND"
+  | "SAME_ACCOUNT"
+  | "INSUFFICIENT_BALANCE";
+
+class SendMoneyError extends Error {
+  constructor(
+    public readonly code: SendMoneyErrorCode,
+    message: string,
+  ) {
+    super(message);
+    this.name = "SendMoneyError";
+  }
+}
 
 async function sendMoney(
   userId: string,
@@ -25,15 +43,15 @@ async function sendMoney(
     });
 
     if (!sender) {
-      throw new Error("Sender account does not exist.");
+      throw new SendMoneyError("SENDER_NOT_FOUND", "Sender account does not exist.");
     }
     if (sender.userId !== userId) {
-      throw new Error("You can only send from your own UPI ID.");
+      throw new SendMoneyError("NOT_OWNER", "You can only send from your own UPI ID.");
     }
 
     const pinOk = await bcrypt.compare(pin, sender.pin);
     if (!pinOk) {
-      throw new Error("Incorrect PIN.");
+      throw new SendMoneyError("INCORRECT_PIN", "Incorrect PIN.");
     }
 
     const receiver = await tx.userBankDetails.findUnique({
@@ -41,30 +59,32 @@ async function sendMoney(
     });
 
     if (!receiver) {
-      throw new Error("Receiver account does not exist.");
+      throw new SendMoneyError("RECEIVER_NOT_FOUND", "Receiver account does not exist.");
     }
     if (receiver.id === sender.id) {
-      throw new Error("Cannot send to the same account.");
+      throw new SendMoneyError("SAME_ACCOUNT", "Cannot send to the same account.");
     }
 
-    const senderBalance = sender.balance ?? 0;
-    if (new Decimal(senderBalance).lessThan(amount)) {
-      throw new Error("Insufficient balance.");
-    }
+    const amountDecimal = new Decimal(amount);
 
-    const receiverBalance = receiver.balance ?? 0;
-
-    await tx.userBankDetails.update({
-      where: { id: sender.id },
+    const debitResult = await tx.userBankDetails.updateMany({
+      where: {
+        id: sender.id,
+        balance: { gte: amountDecimal },
+      },
       data: {
-        balance: new Decimal(senderBalance).minus(new Decimal(amount)),
+        balance: { decrement: amountDecimal },
       },
     });
+
+    if (debitResult.count !== 1) {
+      throw new SendMoneyError("INSUFFICIENT_BALANCE", "Insufficient balance.");
+    }
 
     await tx.userBankDetails.update({
       where: { id: receiver.id },
       data: {
-        balance: new Decimal(receiverBalance).plus(new Decimal(amount)),
+        balance: { increment: amountDecimal },
       },
     });
 
@@ -77,6 +97,15 @@ async function sendMoney(
     });
   });
 }
+
+const STATUS_FOR_CODE: Record<SendMoneyErrorCode, number> = {
+  SENDER_NOT_FOUND: 404,
+  RECEIVER_NOT_FOUND: 404,
+  NOT_OWNER: 403,
+  INCORRECT_PIN: 401,
+  SAME_ACCOUNT: 403,
+  INSUFFICIENT_BALANCE: 400,
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -108,23 +137,10 @@ export default async function handler(
         errors: err.errors,
       });
     }
-    if (err instanceof Error) {
-      const msg = err.message;
-      if (
-        msg.includes("PIN") ||
-        msg.includes("only send") ||
-        msg.includes("same account")
-      ) {
-        return res.status(403).json({ message: msg });
-      }
-      if (msg.includes("not exist")) {
-        return res.status(404).json({ message: msg });
-      }
-      if (msg.includes("Insufficient")) {
-        return res.status(400).json({ message: msg });
-      }
-      console.error("Error sending money:", msg);
+    if (err instanceof SendMoneyError) {
+      return res.status(STATUS_FOR_CODE[err.code]).json({ message: err.message });
     }
+    console.error("Error sending money:", err);
     return res.status(500).json({ message: "Transaction failed" });
   }
 }

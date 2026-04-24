@@ -38,10 +38,14 @@ model UserBankDetails {
   transactionsTo   Transaction[] @relation("TransactionsTo")
 }
 
-/// Singleton row (id = 1) tracking the last calendar month mock “salary” was applied for all accounts.
+enum MockMonthlyCreditStateKey {
+  ONLY
+}
+
+/// Singleton row (id = ONLY) tracking the last calendar month mock “salary” was applied for all accounts.
 model MockMonthlyCreditState {
-  id                Int     @id @default(1)
-  lastCreditedMonth String? @db.VarChar(7)
+  id                MockMonthlyCreditStateKey @id @default(ONLY)
+  lastCreditedMonth String?                   @db.VarChar(7)
 }
 
 model Transaction {

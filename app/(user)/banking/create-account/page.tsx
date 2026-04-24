@@ -49,7 +49,6 @@ export default function CreateBankAccountPage() {
         ) {
             const upiid = `${username}${formData.bankName}@mintpay`;
             const data = {
-                userId: userId,
                 bankName: formData.bankName,
                 upiid: upiid,
                 pin: formData.pin,
