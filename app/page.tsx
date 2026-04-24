@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 export default function Home() {
   const router = useRouter();
   return (
@@ -51,7 +52,7 @@ export default function Home() {
       }}
         className="cursor-pointer"
       >
-        <Button variant="outline" onClick={() => router.push("/login")} className="text-lg font-medium text-white bg-white/10 bg-opacity-50">
+        <Button variant={"outline"} onClick={() => router.push("/login")} className="text-lg font-medium text-white bg-white/10 bg-opacity-50">
           Login
         </Button>
       </div>

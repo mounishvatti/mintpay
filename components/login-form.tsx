@@ -15,7 +15,7 @@ import {
   setUsername,
   setToken,
 } from "@/app/store/userSlice";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export function LoginForm({
   className,
@@ -45,7 +45,12 @@ export function LoginForm({
           dispatch(setSession(true));
           router.push("/banking/user-dashboard");
         }
-      } catch (error) {
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+          toast.error(error.response.data?.message || "Login failed");
+        } else {
+          toast.error("An unexpected error occurred");
+        }
         console.error("Login failed", error);
       }
     }

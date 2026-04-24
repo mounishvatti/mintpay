@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function ChangePasswordPage({
     className,
