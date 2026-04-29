@@ -53,13 +53,13 @@ git clone https://github.com/yourusername/mintpay.git
 cd mintpay
 ```
 
-2.	Install dependencies:
+1. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3.	Set up environment variables:
+1. Set up environment variables:
 
 ```bash
 cp .env.example .env
@@ -67,13 +67,57 @@ cp .env.example .env
 
 Fill in the necessary credentials in the .env file.
 
-4.	Run the development server:
+1. Run the development server:
 
 ```bash
 npm run dev
 ```
 
-5.	Open your browser and navigate to http://localhost:3000
+1. Open your browser and navigate to <http://localhost:3000>
+
+## Monitoring (Prometheus + Grafana)
+
+MintPay exposes Prometheus metrics at `/api/metrics`.
+
+### Start Monitoring Stack
+
+1. Start your app first:
+
+```bash
+npm run dev
+```
+
+1. Start Prometheus and Grafana:
+
+```bash
+npm run monitoring:up
+```
+
+1. Open:
+
+- Prometheus: <http://localhost:9090>
+- Grafana: <http://localhost:3001>
+
+Grafana default credentials:
+
+- Username: `admin`
+- Password: `admin`
+
+Prometheus is pre-configured to scrape:
+
+- <http://host.docker.internal:3000/api/metrics>
+
+Grafana auto-provisions:
+
+- Prometheus data source
+- Dashboard: MintPay / MintPay Overview
+
+### Useful Commands
+
+```bash
+npm run monitoring:logs
+npm run monitoring:down
+```
 
 Contributing
 

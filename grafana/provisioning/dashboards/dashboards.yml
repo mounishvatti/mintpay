@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: MintPay Dashboards
+    orgId: 1
+    folder: MintPay
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards
