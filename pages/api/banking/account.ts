@@ -1,4 +1,4 @@
-import prisma from "@/prisma/PrismaClient";
+import { prisma } from "@/prisma/PrismaClient";
 import { ensureMockMonthlyCreditsApplied } from "@/lib/banking/mockMonthlyCredit";
 import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
 import { NextApiRequest, NextApiResponse } from "next";

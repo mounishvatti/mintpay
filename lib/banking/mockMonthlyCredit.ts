@@ -1,10 +1,10 @@
-import prisma from "@/prisma/PrismaClient";
-import { Prisma } from "@prisma/client";
+import { prisma } from "@/prisma/PrismaClient";
+import { MockMonthlyCreditStateKey, Prisma } from "@prisma/client";
 import { MOCK_MONTHLY_SALARY_INR } from "@/lib/banking/constants";
 
 export { MOCK_MONTHLY_SALARY_INR } from "@/lib/banking/constants";
 
-const STATE_ROW_ID = 1;
+const STATE_ROW_ID: MockMonthlyCreditStateKey = "ONLY";
 const MAX_RETRIES = 3;
 
 export function currentSalaryMonthKeyUtc(): string {

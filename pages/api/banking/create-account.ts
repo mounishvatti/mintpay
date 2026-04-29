@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
-import prisma from "@/prisma/PrismaClient";
+import { prisma } from "@/prisma/PrismaClient";
 import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
 import { z } from "zod";
 

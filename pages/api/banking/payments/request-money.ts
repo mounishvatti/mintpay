@@ -1,5 +1,5 @@
 import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
-import prisma from "@/prisma/PrismaClient";
+import { prisma } from "@/prisma/PrismaClient";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
