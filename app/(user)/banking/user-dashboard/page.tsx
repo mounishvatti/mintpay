@@ -45,7 +45,7 @@ export default function BankingUserDashboardPage() {
       const first = res.data.bankdetails[0];
       if (first) setUpiDraft(first.upiid);
     } catch {
-      toast.error("Could not load account (are you logged in?)");
+      toast.error("Could not load account (are you logged in?)"); 
       setData(null);
     } finally {
       setLoading(false);
@@ -72,6 +72,36 @@ export default function BankingUserDashboardPage() {
       }
     } finally {
       setSavingUPI(false);
+    }
+  };
+
+  const copyPrimaryUpi = async (upi: string) => {
+    try {
+      await navigator.clipboard.writeText(upi);
+      toast.success("UPI ID copied");
+    } catch {
+      toast.error("Could not copy UPI ID");
+    }
+  };
+
+  const downloadQr = async (url: string, filename: string) => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Failed to fetch QR image");
+      }
+
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch {
+      toast.error("Could not download QR");
     }
   };
 
@@ -103,6 +133,8 @@ export default function BankingUserDashboardPage() {
     (sum, account) => sum + Number(account.balance),
     0,
   );
+  const qrPayload = `upi://pay?pa=${primary.upiid}&pn=${data.user.first_name}`;
+  const qrImageUrl = `https://quickchart.io/qr?text=${encodeURIComponent(qrPayload)}&size=220`;
 
   return (
     <div className="max-w-5xl mx-auto p-8 space-y-8">
@@ -130,6 +162,37 @@ export default function BankingUserDashboardPage() {
             <strong>all</strong> mock accounts once—triggered when any signed-in
             user opens this screen (or calls the account API).
           </p>
+        </div>
+
+        <div className="rounded-2xl border bg-card p-5 shadow-sm md:col-span-2 md:row-span-2 flex flex-col items-center justify-center">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground self-start">
+            Your UPI QR
+          </p>
+          <img
+            src={qrImageUrl}
+            alt="Primary account UPI QR code"
+            className="mt-3 h-44 w-44 rounded-lg border bg-white p-2"
+          />
+          <p className="text-xs text-muted-foreground mt-3 text-center break-all">
+            Scan to pay {primary.upiid}
+          </p>
+          <div className="mt-4 flex w-full flex-col gap-2 sm:flex-row">
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1"
+              onClick={() => copyPrimaryUpi(primary.upiid)}
+            >
+              Copy UPI ID
+            </Button>
+            <Button
+              type="button"
+              className="flex-1"
+              onClick={() => downloadQr(qrImageUrl, `${primary.upiid}-qr.png`)}
+            >
+              Download QR
+            </Button>
+          </div>
         </div>
 
         {data.bankdetails.map((account, index) => {
