@@ -1,8 +1,9 @@
 "use server"
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma  from "@/prisma/PrismaClient";
+import { prisma } from "@/prisma/PrismaClient";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
+import bcrypt from "bcrypt";
 
 // Validation schema for login input
 const loginSchema = z.object({
@@ -34,18 +35,11 @@ export default async function handler(
       return res.status(404).json({ message: "User not found" });
     }
 
-    // // Compare the password with the stored hashed password
-    // const isPasswordValid = await bcrypt.compare(
-    //   loginData.password,
-    //   user.password || "",
-    // );
-
-    let isPasswordValid = false;
-    if(loginData.password === user.password){
-      isPasswordValid = true;
-    } else {
-      isPasswordValid = false;
-    }
+    // Compare the password with the stored hashed password
+    const isPasswordValid = await bcrypt.compare(
+      loginData.password,
+      user.password || "",
+    );
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });

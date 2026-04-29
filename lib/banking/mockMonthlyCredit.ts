@@ -1,10 +1,9 @@
-import prisma from "@/prisma/PrismaClient";
-import { Prisma } from "@prisma/client";
+import { prisma } from "@/prisma/PrismaClient";
+import { Prisma } from "@/generated/prisma/client";
 import { MOCK_MONTHLY_SALARY_INR } from "@/lib/banking/constants";
 
 export { MOCK_MONTHLY_SALARY_INR } from "@/lib/banking/constants";
 
-const STATE_ROW_ID = 1;
 const MAX_RETRIES = 3;
 
 export function currentSalaryMonthKeyUtc(): string {
@@ -16,7 +15,7 @@ export function currentSalaryMonthKeyUtc(): string {
 
 /**
  * Ensures all `UserBankDetails` rows receive {@link MOCK_MONTHLY_SALARY_INR}
- * for the current UTC month exactly once (global checkpoint).
+ * for the current UTC month exactly once per account.
  *
  * Uses a single `updateMany` increment so the credit is applied in one SQL
  * statement. Retries up to {@link MAX_RETRIES} times on SERIALIZABLE
@@ -30,21 +29,39 @@ export async function ensureMockMonthlyCreditsApplied(): Promise<void> {
     try {
       await prisma.$transaction(
         async (tx) => {
-          const state = await tx.mockMonthlyCreditState.findUnique({
-            where: { id: STATE_ROW_ID },
+          const accounts = await tx.userBankDetails.findMany({
+            select: { id: true },
           });
-          if (state?.lastCreditedMonth === monthKey) return;
+          if (accounts.length === 0) return;
+
+          const creditedThisMonth = await tx.monthlyCreditLog.findMany({
+            where: { monthKey },
+            select: { accountId: true },
+          });
+
+          const creditedIds = new Set(creditedThisMonth.map((row) => row.accountId));
+          const targetAccountIds = accounts
+            .map((account) => account.id)
+            .filter((id) => !creditedIds.has(id));
+
+          if (targetAccountIds.length === 0) return;
 
           await tx.userBankDetails.updateMany({
+            where: {
+              id: { in: targetAccountIds },
+            },
             data: {
               balance: { increment: MOCK_MONTHLY_SALARY_INR },
             },
           });
 
-          await tx.mockMonthlyCreditState.upsert({
-            where: { id: STATE_ROW_ID },
-            create: { id: STATE_ROW_ID, lastCreditedMonth: monthKey },
-            update: { lastCreditedMonth: monthKey },
+          await tx.monthlyCreditLog.createMany({
+            data: targetAccountIds.map((accountId) => ({
+              accountId,
+              monthKey,
+              amount: MOCK_MONTHLY_SALARY_INR,
+            })),
+            skipDuplicates: true,
           });
         },
         { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },

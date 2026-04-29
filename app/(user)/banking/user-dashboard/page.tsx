@@ -3,7 +3,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -99,9 +99,13 @@ export default function BankingUserDashboardPage() {
   }
 
   const primary = data.bankdetails[0]!;
+  const totalBalance = data.bankdetails.reduce(
+    (sum, account) => sum + Number(account.balance),
+    0,
+  );
 
   return (
-    <div className="max-w-lg mx-auto p-8 space-y-8">
+    <div className="max-w-5xl mx-auto p-8 space-y-8">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">
           Hi, {data.user.first_name}
@@ -111,22 +115,51 @@ export default function BankingUserDashboardPage() {
         </p>
       </div>
 
-      <div className="rounded-xl border bg-card p-6 shadow-sm space-y-2">
-        <p className="text-sm font-medium text-muted-foreground">Balance</p>
-        <p className="text-3xl font-bold tabular-nums">
-          {inr.format(Number(primary.balance))}
-        </p>
-        <p className="text-xs text-muted-foreground pt-2">
-          Every calendar month (UTC), MintPay credits{" "}
-          <strong>{inr.format(MOCK_MONTHLY_SALARY_INR)}</strong> to{" "}
-          <strong>all</strong> mock accounts once—triggered when any signed-in
-          user opens this screen (or calls the account API).
-        </p>
+      <div className="grid gap-4 md:grid-cols-4 auto-rows-[minmax(140px,_auto)]">
+        <div className="rounded-2xl border bg-card p-6 shadow-sm md:col-span-4">
+          <p className="text-sm font-medium text-muted-foreground">
+            Total balance across {data.bankdetails.length} account
+            {data.bankdetails.length > 1 ? "s" : ""}
+          </p>
+          <p className="text-3xl font-bold tabular-nums mt-2">
+            {inr.format(totalBalance)}
+          </p>
+          <p className="text-xs text-muted-foreground pt-3">
+            Every calendar month (UTC), MintPay credits{" "}
+            <strong>{inr.format(MOCK_MONTHLY_SALARY_INR)}</strong> to{" "}
+            <strong>all</strong> mock accounts once—triggered when any signed-in
+            user opens this screen (or calls the account API).
+          </p>
+        </div>
+
+        {data.bankdetails.map((account, index) => {
+          const isPrimary = index === 0;
+
+          return (
+            <div
+              key={account.id}
+              className={`rounded-2xl border bg-card p-5 shadow-sm ${
+                isPrimary ? "md:col-span-2 md:row-span-2" : "md:col-span-2"
+              }`}
+            >
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {isPrimary ? "Primary account" : `Account ${index + 1}`}
+              </p>
+              <h3 className="text-lg font-semibold mt-1">{account.bankName.toUpperCase()}</h3>
+              <p className="text-2xl font-bold tabular-nums mt-3">
+                {inr.format(Number(account.balance))}
+              </p>
+              <p className="text-sm text-muted-foreground mt-2 break-all">
+                {account.upiid}
+              </p>
+            </div>
+          );
+        })}
       </div>
 
       <form onSubmit={saveUPI} className="rounded-xl border bg-card p-6 shadow-sm space-y-4">
         <div>
-          <h2 className="font-semibold">Your UPI ID</h2>
+          <h2 className="font-semibold">Update primary account UPI ID</h2>
           <p className="text-xs text-muted-foreground mt-1">
             Choose a unique ID like <code className="text-xs">you@mintpay</code>
             . It must include <code className="text-xs">@</code>.

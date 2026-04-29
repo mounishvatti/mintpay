@@ -1,4 +1,4 @@
-import prisma from "@/prisma/PrismaClient";
+import { prisma } from "@/prisma/PrismaClient";
 import { ensureMockMonthlyCreditsApplied } from "@/lib/banking/mockMonthlyCredit";
 import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -22,7 +22,11 @@ export default async function handler(
   }
 
   try {
-    await ensureMockMonthlyCreditsApplied();
+    try {
+      await ensureMockMonthlyCreditsApplied();
+    } catch (err) {
+      console.error("Monthly credit apply failed, continuing account fetch", err);
+    }
 
     const user = await prisma.user.findUnique({
       where: { id: userId },

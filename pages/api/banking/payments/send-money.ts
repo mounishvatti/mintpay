@@ -1,5 +1,5 @@
-import prisma from "@/prisma/PrismaClient";
-import { Decimal } from "@prisma/client/runtime/library";
+import { prisma}  from "@/prisma/PrismaClient";
+import { Decimal } from "decimal.js";
 import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";

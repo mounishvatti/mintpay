@@ -1,7 +1,8 @@
 "use server";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
-import prisma from "@/prisma/PrismaClient";
+import { prisma } from "@/prisma/PrismaClient";
+import bcrypt from "bcrypt";
 import WelcomeEmail from "../email-service/welcome-email";
 import { Resend } from "resend";
 import React from "react";
@@ -58,8 +59,7 @@ export default async function handler(
     const username = `${signupData.first_name}${signupData.last_name}`
       .toLowerCase();
 
-    // TODO: Hash the password
-    
+    const hashedPassword = await bcrypt.hash(signupData.password, 10);
 
     // Create a new user
     await prisma.user.create({
@@ -68,7 +68,7 @@ export default async function handler(
         last_name: signupData.last_name,
         username: username,
         email: signupData.email,
-        password: signupData.password,
+        password: hashedPassword,
       },
     });
 
