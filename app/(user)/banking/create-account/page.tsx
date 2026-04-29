@@ -6,18 +6,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
-import store from "@/app/store/store";
 import { Button } from "@/components/ui/button";
 
 export default function CreateBankAccountPage() {
     const router = useRouter();
-    const username = store.getState().user.username;
-    const userId = store.getState().user.userId;
 
     const [pinError, setPinError] = useState("");
 
     const [formData, setFormData] = useState({
-        bankName: "",
+        bankName: "sbi",
         pin: "",
         confirmPin: "",
     });
@@ -44,29 +41,34 @@ export default function CreateBankAccountPage() {
 
     const createBankAccount = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (
-            userId && username && formData.bankName && formData.pin && !pinError
-        ) {
-            const upiid = `${username}${formData.bankName}@mintpay`;
-            const data = {
-                bankName: formData.bankName,
-                upiid: upiid,
-                pin: formData.pin,
-            };
+        if (!formData.bankName || !formData.pin || !formData.confirmPin) {
+            toast.error("Please fill all required fields");
+            return;
+        }
 
-            try {
-                const response = await axios.post(
-                    "/api/banking/create-account",
-                    data,
-                );
-                if (response.status === 201) {
-                    toast.success("Bank account created successfully");
-                }
+        if (pinError || formData.pin !== formData.confirmPin) {
+            toast.error("PINs do not match");
+            return;
+        }
 
+        const data = {
+            bankName: formData.bankName,
+            pin: formData.pin,
+        };
+
+        try {
+            const response = await axios.post(
+                "/api/banking/create-account",
+                data,
+            );
+            if (response.status === 201) {
+                toast.success("Bank account created successfully");
                 router.push("/banking/user-dashboard");
-            } catch {
+            } else {
                 toast.error("Error creating bank account, please try again");
             }
+        } catch {
+            toast.error("Error creating bank account, please try again");
         }
     };
 
@@ -143,9 +145,12 @@ export default function CreateBankAccountPage() {
                             onChange={handleInputChange}
                             required
                         />
+                        {pinError && (
+                            <p className="mt-1 text-sm text-red-600">{pinError}</p>
+                        )}
                     </div>
 
-                    <Button variant="default" className="text-lg font-bold">Create Bank Account</Button>
+                    <Button variant="default" type="submit" className="text-lg font-bold">Create Bank Account</Button>
                 </form>
             </div>
         </>

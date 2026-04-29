@@ -7,7 +7,7 @@ import { z } from "zod";
 // Validation schema for creating a bank account
 const createAccountSchema = z.object({
   bankName: z.string().min(1, "Bank name is required"),
-  upiid: z.string().min(1, "UPI ID is required"),
+  upiid: z.string().min(1, "UPI ID is required").optional(),
   pin: z.coerce.number().min(1000, "Pin must be a 4-digit number").max(9999, "Pin must be a 4-digit number"),
 });
 
@@ -27,9 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const accountData = createAccountSchema.parse(req.body);
 
-    // Normalize UPI ID once so the uniqueness check and insert use the same value
-    const normalizedUpiId = accountData.upiid.trim().toLowerCase();
-
     // Ensure that the user exists
     const user = await prisma.user.findUnique({
       where: {
@@ -39,6 +36,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    const baseUsername = user.username?.trim().toLowerCase() || `user${user.id.slice(0, 8)}`;
+    const normalizedBankName = accountData.bankName.trim().toLowerCase();
+    const generatedUpiId = `${baseUsername}${normalizedBankName}@mintpay`;
+
+    // Normalize UPI ID once so the uniqueness check and insert use the same value
+    const normalizedUpiId = (accountData.upiid ?? generatedUpiId).trim().toLowerCase();
 
     const hashedPin = await bcrypt.hash(accountData.pin.toString(), 10);
 

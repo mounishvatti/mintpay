@@ -22,7 +22,11 @@ export default async function handler(
   }
 
   try {
-    await ensureMockMonthlyCreditsApplied();
+    try {
+      await ensureMockMonthlyCreditsApplied();
+    } catch (err) {
+      console.error("Monthly credit apply failed, continuing account fetch", err);
+    }
 
     const user = await prisma.user.findUnique({
       where: { id: userId },

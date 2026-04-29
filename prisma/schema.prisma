@@ -37,15 +37,25 @@ model UserBankDetails {
   user             User          @relation(fields: [userId], references: [id])
   transactionsFrom Transaction[] @relation("TransactionsFrom")
   transactionsTo   Transaction[] @relation("TransactionsTo")
+  monthlyCredits   MonthlyCreditLog[]
 }
 
-enum MockMonthlyCreditStateKey {
-  ONLY
+model MonthlyCreditLog {
+  id         String   @id @default(uuid())
+  accountId  String
+  monthKey   String   @db.VarChar(7)
+  amount     Decimal  @db.Decimal(12, 2)
+  creditedAt DateTime @default(now()) @db.Timestamptz(6)
+
+  account UserBankDetails @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, monthKey])
+  @@index([monthKey])
 }
 
-/// Singleton row (id = ONLY) tracking the last calendar month mock “salary” was applied for all accounts.
+/// Singleton row (id = 1) tracking the last calendar month mock "salary" was applied for all accounts.
 model MockMonthlyCreditState {
-  id                MockMonthlyCreditStateKey @id @default(ONLY)
+  id                Int     @id @default(1)
   lastCreditedMonth String?                   @db.VarChar(7)
 }
 
