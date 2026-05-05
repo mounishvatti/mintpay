@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import { prisma } from "@/prisma/PrismaClient";
-import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
+import { getUserIdFromRequest } from "@/pages/api/proxy/authenticatedRequest";
 import { z } from "zod";
 
 // Validation schema for creating a bank account

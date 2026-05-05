@@ -1,5 +1,5 @@
 import { prisma } from "@/prisma/PrismaClient";
-import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
+import { getUserIdFromRequest } from "@/pages/api/proxy/authenticatedRequest";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

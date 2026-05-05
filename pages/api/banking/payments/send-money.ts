@@ -1,6 +1,6 @@
 import { prisma}  from "@/prisma/PrismaClient";
 import { Decimal } from "decimal.js";
-import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
+import { getUserIdFromRequest } from "@/pages/api/proxy/authenticatedRequest";
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import { z } from "zod";

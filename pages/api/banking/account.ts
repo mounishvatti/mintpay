@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma/PrismaClient";
 import { ensureMockMonthlyCreditsApplied } from "@/lib/banking/mockMonthlyCredit";
-import { getUserIdFromRequest } from "@/pages/api/middleware/authenticatedRequest";
+import { getUserIdFromRequest } from "@/pages/api/proxy/authenticatedRequest";
 import { NextApiRequest, NextApiResponse } from "next";
 
 function stripPin<T extends { pin?: string }>(row: T) {

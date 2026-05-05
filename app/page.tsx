@@ -38,6 +38,7 @@ export default function Home() {
           alt="Image"
           className="w-full max-w-xl"
           layout="responsive" // Adjusts the image's aspect ratio and makes it responsive
+          loading="eager"
           width={1000}
           height={1000}
         />
