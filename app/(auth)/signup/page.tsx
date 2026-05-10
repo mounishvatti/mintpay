@@ -10,37 +10,27 @@ export const metadata: Metadata = {
 
 export default function SignupPage() {
     return (
-        <div
-            className="relative grid min-h-screen lg:grid-cols-2"
-            style={{
-                backgroundImage:
-                    "url('https://res.cloudinary.com/slicepay/image/upload/v1718021209/website/sliceit-v3/images/desktop/og_Image.png')",
-                backgroundSize: "cover",
-                backgroundPosition: "left",
-                backgroundRepeat: "no-repeat",
-            }}
-        >
-            {/* Positioned at top left corner */}
-            <Link
-                href="/"
-                className="absolute top-4 left-4 flex items-center gap-2 font-medium"
-            >
-                <span className="text-3xl font-sans text-white font-bold italic">
-                    mintpay
-                </span>
-            </Link>
-            {/* Left Section */}
-            <div className="hidden lg:block"></div>
+        <div className="min-h-screen flex flex-col">
 
-            {/* Right Section */}
-            <div className="flex flex-col gap-4 md:p-10">
-                {/* Signup Form */}
-                <div className="flex flex-1 max-w-2xl max-h-svh items-center justify-center bg-white bg-opacity-90 backdrop-blur-3xl rounded-3xl shadow-lg">
-                    <div>
-                        <SignupForm />
-                    </div>
+            {/* Nav */}
+            <header className="shadow-sm">
+                <div className="max-w-5xl mx-auto flex h-14 items-center px-5">
+                    <Link href="/" className="flex items-center gap-2">
+                        <div className="h-8 w-8 rounded-lg flex items-center justify-center">
+                            <span className="font-bold text-sm">₹</span>
+                        </div>
+                        <span className="font-bold font-serif text-lg">mintpay</span>
+                    </Link>
+                </div>
+            </header>
+
+            {/* Centred card */}
+            <div className="flex flex-1 items-center justify-center px-4 py-12">
+                <div className="w-full max-w-sm rounded-2xl shadow-md p-8">
+                    <SignupForm />
                 </div>
             </div>
+
         </div>
     );
 }

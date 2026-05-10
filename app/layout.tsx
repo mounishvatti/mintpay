@@ -1,8 +1,5 @@
-"use client"
 import { Geist, Geist_Mono } from "next/font/google";
-import { Provider } from "react-redux";
-import store from "@/app/store/store";
-import { Toaster } from "@/components/ui/sonner"
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,15 +23,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster />
-        <Provider store={store}>
+        <Providers>
           {children}
-        </Provider>
+        </Providers>
       </body>
     </html>
   );
 }
+

@@ -6,74 +6,75 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    /* Groww-inspired light theme */
+    --background: 210 17% 96%;       /* #f0f2f5 page bg */
+    --foreground: 220 26% 10%;       /* near-black text */
+    --card: 0 0% 100%;               /* white cards */
+    --card-foreground: 220 26% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 262.1 83.3% 57.8%;
-    --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --popover-foreground: 220 26% 10%;
+    --primary: 165 100% 41%;         /* #00d09c — Groww green */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 14% 93%;
+    --secondary-foreground: 220 26% 10%;
+    --muted: 210 14% 93%;
+    --muted-foreground: 215 14% 47%;
+    --accent: 165 60% 92%;           /* light green tint */
+    --accent-foreground: 165 100% 25%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 14% 89%;
+    --input: 215 14% 89%;
+    --ring: 165 100% 41%;
+    --radius: 0.75rem;               /* slightly more rounded */
+    --chart-1: 165 100% 41%;
+    --chart-2: 215 70% 50%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 270 60% 60%;
+    --chart-5: 0 84% 60%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 26% 10%;
+    --sidebar-primary: 165 100% 41%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 165 60% 94%;
+    --sidebar-accent-foreground: 165 100% 25%;
+    --sidebar-border: 215 14% 89%;
+    --sidebar-ring: 165 100% 41%;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 263.4 70% 50.4%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --background: 220 26% 8%;
+    --foreground: 210 20% 96%;
+    --card: 220 22% 12%;
+    --card-foreground: 210 20% 96%;
+    --popover: 220 22% 12%;
+    --popover-foreground: 210 20% 96%;
+    --primary: 165 100% 41%;         /* keep Groww green in dark too */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 22% 18%;
+    --secondary-foreground: 210 20% 96%;
+    --muted: 215 22% 18%;
+    --muted-foreground: 215 14% 55%;
+    --accent: 165 40% 20%;
+    --accent-foreground: 165 80% 70%;
+    --destructive: 0 63% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 22% 20%;
+    --input: 215 22% 20%;
+    --ring: 165 100% 41%;
+    --chart-1: 165 100% 41%;
+    --chart-2: 215 70% 55%;
+    --chart-3: 30 80% 60%;
+    --chart-4: 270 60% 65%;
+    --chart-5: 0 84% 60%;
+    --sidebar-background: 220 22% 10%;
+    --sidebar-foreground: 210 20% 92%;
+    --sidebar-primary: 165 100% 41%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 165 40% 18%;
+    --sidebar-accent-foreground: 165 80% 70%;
+    --sidebar-border: 215 22% 18%;
+    --sidebar-ring: 165 100% 41%;
   }
 }
 

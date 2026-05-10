@@ -11,15 +11,15 @@ import { REGEXP_ONLY_DIGITS } from "input-otp";
 
 export default function LoginOtpPage() {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-violet-900">
-            <div className="rounded-lg p-8 m-4 w-full max-w-md shadow-md gap-4 bg-white">
+        <div className="flex flex-col items-center justify-center min-h-screen">
+            <div className="rounded-lg p-8 m-4 w-full max-w-md shadow-md gap-4">
                 {/* Logo Section */}
                 <div className="flex items-center justify-center md:justify-start">
                     <a href="#" className="flex items-center">
                         {/* <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                             <BadgeIndianRupee className="size-5" />
                         </div> */}
-                        <span className="text-2xl font-sans text-violet-600 font-bold italic">
+                        <span className="text-2xl font-sans font-bold italic">
                             mintpay
                         </span>
                     </a>
@@ -27,7 +27,7 @@ export default function LoginOtpPage() {
 
                 {/* OTP Section */}
                 <div className="mt-6">
-                    <p className="text-center text-md font-semibold font-sans text-slate-600 p-2">
+                    <p className="text-center text-md font-semibold font-sans p-2">
                         Enter the code sent to your email
                     </p>
 

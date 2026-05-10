@@ -143,7 +143,22 @@ const data = {
   ],
 }
 
-export function AppSidebar({onFunctionSelect,  ...props }: React.ComponentProps<typeof Sidebar> & {onFunctionSelect: (key: string) => void}) {
+type SidebarUser = {
+  name: string
+  email: string
+  avatar?: string
+}
+
+export function AppSidebar({
+  onFunctionSelect,
+  user,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & {
+  onFunctionSelect: (key: string) => void
+  user?: SidebarUser
+}) {
+  const sidebarUser: SidebarUser = user ?? data.user
+
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
       <SidebarHeader>
@@ -167,7 +182,7 @@ export function AppSidebar({onFunctionSelect,  ...props }: React.ComponentProps<
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={sidebarUser} />
       </SidebarFooter>
     </Sidebar>
   )
